@@ -1,0 +1,28 @@
+$cell_border: 1px solid #f0f0f0;
+
+.root {
+  flex: 1;
+  min-height: 100px;
+  border-right: $cell_border;
+  border-bottom: $cell_border;
+
+  &:first-child {
+    border-left: $cell_border;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  border-bottom: 1px solid #dddddd;
+  color: #555555;
+  font-size: 14px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
