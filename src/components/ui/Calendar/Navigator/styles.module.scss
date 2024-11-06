@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 auto;
+}
+
+.button {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999999;
+}
+
+.date {
+  color: #ff6813;
+  font-weight: 700;
+}
