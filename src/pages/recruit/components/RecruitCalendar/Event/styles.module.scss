@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  align-items: start;
+  gap: 4px;
+  padding: 2px 4px;
+}
+
+.title {
+  font-size: 13px;
+  color: #333333;
+  line-height: 18px;
+}
+
+.label {
+  color: #ffffff;
+  font-size: 10px;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.start_label {
+  background: #ff6813;
+}
+
+.end_label {
+  background: #3f4b5e;
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment } from 'react';
 
 import styles from './styles.module.scss';
 import { getCalendarRange } from './utils';
@@ -7,16 +7,20 @@ import { Cell } from './Cell';
 import { Navigator } from './Navigator';
 import type { CalendarProps, DateString } from './types';
 
-export const Calendar = <T,>({ events }: CalendarProps<T>) => {
-  const [currentDate, setCurrentDate] = useState(() => new Date());
+export const Calendar = <T,>({
+  currentDate,
+  events = {},
+  renderEvent,
+  onCurrentDateChange,
+}: CalendarProps<T>) => {
   const calendarRange = getCalendarRange(currentDate);
 
   const handlePrevMonth = (prevMonth: Date) => {
-    setCurrentDate(prevMonth);
+    onCurrentDateChange(prevMonth);
   };
 
   const handleNextMonth = (nextMonth: Date) => {
-    setCurrentDate(nextMonth);
+    onCurrentDateChange(nextMonth);
   };
 
   return (
@@ -36,14 +40,18 @@ export const Calendar = <T,>({ events }: CalendarProps<T>) => {
               {week.map((date) => {
                 const year = date.getFullYear();
                 const month = date.getMonth() + 1;
+                const formattedMonth = month < 10 ? `0${month}` : month;
                 const day = date.getDate();
-                const eventKey = `${year}-${month}-${day}` as DateString;
+                const formattedDate = day < 10 ? `0${day}` : day;
+                const eventKey = `${year}-${formattedMonth}-${formattedDate}` as DateString;
 
                 return (
                   <Cell.Root key={eventKey}>
                     <Cell.Header>{day}</Cell.Header>
                     <Cell.Body>
-                      {events[eventKey]?.map(({ title }) => <span key={title}>{title}</span>)}
+                      {events[eventKey]?.map((event, idx) => (
+                        <Fragment key={idx}>{renderEvent({ date, event })}</Fragment>
+                      ))}
                     </Cell.Body>
                   </Cell.Root>
                 );
