@@ -4,15 +4,29 @@ import styles from './styles.module.scss';
 import { getCalendarRange } from './utils';
 import { Days } from './Days';
 import { Cell } from './Cell';
+import { Navigator } from './Navigator';
 import type { CalendarProps, DateString } from './types';
 
 export const Calendar = <T,>({ events }: CalendarProps<T>) => {
-  const [currentDate] = useState(() => new Date());
+  const [currentDate, setCurrentDate] = useState(() => new Date());
   const calendarRange = getCalendarRange(currentDate);
+
+  const handlePrevMonth = (prevMonth: Date) => {
+    setCurrentDate(prevMonth);
+  };
+
+  const handleNextMonth = (nextMonth: Date) => {
+    setCurrentDate(nextMonth);
+  };
 
   return (
     <div className={styles.root}>
       <div className={styles.header}>
+        <Navigator
+          currentDate={currentDate}
+          onPrevMonth={handlePrevMonth}
+          onNextMonth={handleNextMonth}
+        />
         <Days />
       </div>
       <div className={styles.body}>
