@@ -3,12 +3,28 @@
   align-items: start;
   gap: 4px;
   padding: 2px 4px;
+  background: transparent;
+  border: none;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: #fafafa;
+  }
 }
 
 .title {
   font-size: 13px;
-  color: #333333;
   line-height: 18px;
+  text-align: left;
+}
+
+.read {
+  color: #999999;
+}
+
+.unread {
+  color: #333333;
 }
 
 .label {

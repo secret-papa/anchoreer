@@ -1,12 +1,4 @@
-export type Recruit = {
-  id: number;
-  company_name: string;
-  title: string;
-  start_time: string;
-  end_time: string;
-  image_url: string;
-  duty_ids: string[];
-};
+import type { Recruit } from '../types';
 
 export type RecruitCalendarProps = {
   currentDate: Date;

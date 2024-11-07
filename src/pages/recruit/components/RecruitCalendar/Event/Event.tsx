@@ -2,14 +2,18 @@ import cn from 'classnames';
 
 import styles from './styles.module.scss';
 import { isSameDate } from '../../../../../utils';
-import type { EventProps } from '../../../../../components/ui';
+import type { EventProps } from './types';
 
-export const Event = ({ date, event }: EventProps) => {
+export const Event = ({ date, event, read, onClick }: EventProps) => {
   const isStartRecruit = isSameDate(date, event.startDate);
   const isEndRecruit = isSameDate(date, event.endDate);
 
+  const handleEventClick = () => {
+    onClick(event);
+  };
+
   return (
-    <div className={styles.root}>
+    <button className={styles.root} onClick={handleEventClick}>
       <span
         className={cn(styles.label, {
           [styles.start_label]: isStartRecruit,
@@ -18,7 +22,14 @@ export const Event = ({ date, event }: EventProps) => {
       >
         {isStartRecruit ? '시' : '끝'}
       </span>
-      <span className={styles.title}>{event.title}</span>
-    </div>
+      <span
+        className={cn(styles.title, {
+          [styles.read]: read,
+          [styles.unread]: !read,
+        })}
+      >
+        {event.title}
+      </span>
+    </button>
   );
 };

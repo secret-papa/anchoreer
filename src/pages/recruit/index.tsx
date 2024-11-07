@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { RecruitCalendar } from './components';
 import { useListRecruitQuery } from './queries';
 import { useRecruit } from './hooks';
-import { flatten, isDefined } from '../../utils';
+import { flatten, isDefined, removeDuplicates } from '../../utils';
 
 const RecruitPage = () => {
   const [currentDate, setCurrentDate] = useState(() => new Date());
@@ -16,20 +16,20 @@ const RecruitPage = () => {
     currentDate.getMonth() + 1
   );
 
-  const recruits = flatten<number>(recruitsGroupedByDate).map(getRecruitById).filter(isDefined);
+  const recruits = removeDuplicates(flatten<number>(recruitsGroupedByDate))
+    .map(getRecruitById)
+    .filter(isDefined);
 
   const handleCurrentDateChange = (currentDate: Date) => {
     setCurrentDate(currentDate);
   };
 
   return (
-    <div>
-      <RecruitCalendar
-        currentDate={currentDate}
-        recruits={recruits}
-        onCurrentDateChange={handleCurrentDateChange}
-      />
-    </div>
+    <RecruitCalendar
+      currentDate={currentDate}
+      recruits={recruits}
+      onCurrentDateChange={handleCurrentDateChange}
+    />
   );
 };
 
