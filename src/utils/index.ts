@@ -4,4 +4,6 @@ export * from './mergeGroupedData';
 export * from './flatten';
 export * from './isSameDate';
 export * from './isDefined';
+export * from './removeDuplicates';
+export * from './parseJSON';
 export * from './types';

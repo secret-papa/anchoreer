@@ -1,0 +1,78 @@
+.portal {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  overflow-y: scroll;
+}
+
+.container {
+  width: 750px;
+  padding-bottom: 0px;
+}
+
+.content_header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.company_name {
+  color: #333333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.content_detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.period {
+  font-size: 14px;
+  font-weight: 400;
+  color: #777777;
+}
+
+.duty {
+  font-size: 14px;
+  font-weight: 400;
+  color: #ff6e70;
+}
+
+.image {
+  display: block;
+  width: 100%;
+}
+
+.navigation_button {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  z-index: 99;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &.left {
+    left: 40px;
+  }
+
+  &.right {
+    right: 40px;
+  }
+}

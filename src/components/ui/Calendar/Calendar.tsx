@@ -5,7 +5,8 @@ import { getCalendarRange } from './utils';
 import { Days } from './Days';
 import { Cell } from './Cell';
 import { Navigator } from './Navigator';
-import type { CalendarProps, DateString } from './types';
+import type { CalendarProps } from './types';
+import type { DateString } from '../../../types';
 
 export const Calendar = <T,>({
   currentDate,
