@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { groupByDate, isDefined, mergeGroupedData, normalize } from '../../utils';
 import type { ArrayElement } from '../../utils';
-import type { ListRecruitResponse } from '../../apis';
+import type { ListDutyResponse, ListRecruitResponse } from '../../apis';
 import type { DateGroupedData } from '../../types';
 
 export const useRecruit = (listRecruit?: ListRecruitResponse) => {
@@ -44,4 +44,66 @@ export const useRecruit = (listRecruit?: ListRecruitResponse) => {
     getRecruitById,
     getRecruitsGroupedByDate,
   };
+};
+
+type Go = Record<
+  number,
+  {
+    id: number;
+    name: string;
+    parent_id: number | null;
+    children?: number[];
+  }
+>;
+
+export const useDuty = (listDuty?: ListDutyResponse) => {
+  // TODO:: define type
+  const [duties, setDuties] = useState<Go>();
+
+  const getDuty = (dutyId: number) => {
+    return duties?.[dutyId];
+  };
+
+  useEffect(() => {
+    if (!isDefined(listDuty)) {
+      return;
+    }
+
+    setDuties(gogo(listDuty));
+  }, [listDuty]);
+
+  return {
+    duties,
+    getDuty,
+  };
+};
+
+// TODO:: refactoring
+const gogo = (listDuty: ListDutyResponse) => {
+  return listDuty.reduce((acc, duty) => {
+    const key = duty.id;
+
+    if (!acc[key]) {
+      acc[key] = {
+        ...duty,
+      };
+    }
+
+    if (duty.parent_id !== null) {
+      let parentDuty = acc[duty.parent_id];
+
+      if (!parentDuty) {
+        // TODO:: define type
+        parentDuty = {} as any;
+      }
+
+      if (!parentDuty.children) {
+        parentDuty.children = [];
+      }
+
+      parentDuty.children.push(duty.id);
+    }
+
+    return acc;
+  }, {} as Go);
 };

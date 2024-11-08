@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    background: #fafafa;
+  }
+}
+
+.duty_name {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+}

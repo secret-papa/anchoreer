@@ -11,6 +11,7 @@ export const RecruitDetailEventModal = ({
   recruitEvent,
   onOpenChange,
   onEventChange,
+  getDuty,
 }: RecruitDetailModalProps) => {
   const { recruit, prevEvent, nextEvent } = recruitEvent.meta ?? {};
 
@@ -47,7 +48,9 @@ export const RecruitDetailEventModal = ({
             </div>
             <div className={styles.content_detail}>
               <span className={styles.period}>{`${recruit.start_time} ~ ${recruit.end_time}`}</span>
-              <span className={styles.duty}>{recruit.duty_ids.join(', ')}</span>
+              <span className={styles.duty}>
+                {recruit.duty_ids.map((duty) => getDuty(duty).name).join(', ')}
+              </span>
             </div>
             <div className={styles.content_image_wrap}>
               <img className={styles.image} src={recruit.image_url} />

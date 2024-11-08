@@ -12,6 +12,7 @@ export const RecruitCalendar = ({
   currentDate,
   recruits,
   onCurrentDateChange,
+  getDuty,
 }: RecruitCalendarProps) => {
   const [isRecruitDetailModalOpen, setIsRecruitDetailModalOpen] = useState(false);
   const { events, selectedEvent, readEvents, getEvent, selectEvent } = useRecruitEvents(recruits);
@@ -51,6 +52,7 @@ export const RecruitCalendar = ({
           recruitEvent={selectedEvent}
           onOpenChange={handleRecruitDetailModalOpenChange}
           onEventChange={handleEventChange}
+          getDuty={getDuty}
         />
       )}
     </div>

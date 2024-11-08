@@ -4,4 +4,6 @@ export type RecruitCalendarProps = {
   currentDate: Date;
   recruits?: Recruit[];
   onCurrentDateChange: (currentDate: Date) => void;
+  // TODO:: refactoring
+  getDuty: any;
 };
