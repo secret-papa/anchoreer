@@ -7,7 +7,7 @@ export type Recruit = {
   start_time: string;
   end_time: string;
   image_url: string;
-  duty_ids: string[];
+  duty_ids: number[];
 };
 
 export type RecruitEvent = CalendarEvent<{

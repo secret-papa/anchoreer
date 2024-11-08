@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.filter_wrap {
+  display: flex;
+  height: 270px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 4px 0;
+  overflow: hidden;
+}
