@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { useDutyStore, useRecruitStore } from './stores';
 import { useListDutyQuery, useListRecruitQuery } from './queries';
 import { flatten, isDefined, removeDuplicates } from '../../utils';
+import type { RecruitFilter } from './types';
 
-export const useRecruit = (currentDate: Date, filterIds: number[]) => {
+export const useRecruit = (filter: RecruitFilter = { date: new Date(), ids: [] }) => {
   const { data: listRecruit } = useListRecruitQuery();
 
   const getRecruitsGroupedByDate = useRecruitStore((state) => state.getRecruitsGroupedByDate);
@@ -14,39 +15,31 @@ export const useRecruit = (currentDate: Date, filterIds: number[]) => {
   const groupRecruitsByDate = useRecruitStore((state) => state.groupByDate);
 
   const recruitsGroupedByDate = getRecruitsGroupedByDate(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1
+    filter.date.getFullYear(),
+    filter.date.getMonth() + 1
   );
 
   const recruits = removeDuplicates(flatten<number>(recruitsGroupedByDate))
     .map(getRecruitById)
-    .filter((recruit) => {
-      if (!isDefined(recruit)) {
-        return false;
-      }
-
-      if (filterIds.length === 0) {
-        return true;
-      }
-
-      return filterIds.some((filterId) => recruit.duty_ids.includes(filterId));
-    })
-    // TODO:: 제거 필요?
     .filter(isDefined);
 
+  const filteredRecruits =
+    filter.ids.length === 0
+      ? recruits
+      : recruits.filter((recruit) => filter.ids.some((id) => recruit.duty_ids.includes(id)));
+
   useEffect(() => {
-    if (!listRecruit) {
+    if (!isDefined(listRecruit)) {
       return;
     }
 
-    // TODO:: refactoring
     setRecruits(listRecruit);
     normalizeRecruit();
     groupRecruitsByDate();
   }, [listRecruit]);
 
   return {
-    recruits,
+    recruits: filteredRecruits,
   };
 };
 
@@ -61,6 +54,7 @@ export const useDuty = () => {
     if (!isDefined(listDuty)) {
       return;
     }
+
     setDuties(listDuty);
     normalizeDuty();
   }, [listDuty]);

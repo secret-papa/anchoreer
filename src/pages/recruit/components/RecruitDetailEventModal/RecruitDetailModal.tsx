@@ -3,9 +3,9 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 import RightChevronIcon from '../../../../assets/icons/ic_right_chevron.svg?react';
 import LeftChevronIcon from '../../../../assets/icons/ic_left_chevron.svg?react';
+import { useDutyStore } from '../../stores';
 import { Modal } from '../../../../components/ui';
 import type { RecruitDetailModalProps } from './types';
-import { useDutyStore } from '../../stores';
 
 export const RecruitDetailEventModal = ({
   isOpen,

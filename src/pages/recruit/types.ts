@@ -2,6 +2,16 @@ import type { ListDutyResponse, ListRecruitResponse } from '../../apis';
 import type { DateGroupedData } from '../../types';
 import type { ArrayElement } from '../../utils';
 
+export type Recruit = {
+  id: number;
+  company_name: string;
+  title: string;
+  start_time: string;
+  end_time: string;
+  image_url: string;
+  duty_ids: number[];
+};
+
 type RecruitStoreState = {
   recruits: ListRecruitResponse;
   normalizedRecruit: Record<number, ArrayElement<ListRecruitResponse>>;
@@ -21,7 +31,11 @@ type RecruitStoreAction = {
 
 export type RecruitStore = RecruitStoreState & RecruitStoreAction;
 
-// TODO:: refine type
+export type RecruitFilter = {
+  date: Date;
+  ids: number[];
+};
+
 export type Duty = {
   id: number;
   name: string;

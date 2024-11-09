@@ -30,6 +30,7 @@ export const RecruitCalendar = ({
     if (!event) {
       return;
     }
+
     selectEvent(event);
   };
 

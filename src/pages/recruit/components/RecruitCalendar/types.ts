@@ -1,4 +1,4 @@
-import type { Recruit } from '../types';
+import type { Recruit } from '../../types';
 
 export type RecruitCalendarProps = {
   currentDate: Date;

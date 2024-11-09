@@ -7,4 +7,6 @@ export * from './isDefined';
 export * from './removeDuplicates';
 export * from './parseJSON';
 export * from './isEmptyObject';
+export * from './excludeItems';
+export * from './isSubsetArray';
 export * from './types';

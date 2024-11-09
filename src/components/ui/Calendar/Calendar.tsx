@@ -50,8 +50,8 @@ export const Calendar = <T,>({
                   <Cell.Root key={eventKey}>
                     <Cell.Header>{day}</Cell.Header>
                     <Cell.Body>
-                      {events[eventKey]?.map((event, idx) => (
-                        <Fragment key={idx}>{renderEvent({ date, event })}</Fragment>
+                      {events[eventKey]?.map((event) => (
+                        <Fragment key={event.id}>{renderEvent({ date, event })}</Fragment>
                       ))}
                     </Cell.Body>
                   </Cell.Root>

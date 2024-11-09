@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { isDefined } from '../../../../utils';
-import type { Recruit, RecruitEvent } from '../types';
+import type { RecruitEvent } from '../types';
+import type { Recruit } from '../../types';
 import type { DateString } from '../../../../types';
 
 export const makeEvents = (recruits: Recruit[]) => {
@@ -11,7 +12,7 @@ export const makeEvents = (recruits: Recruit[]) => {
   return linkItems(events);
 };
 
-export const groupByDate = (recruits: Recruit[]) => {
+const groupByDate = (recruits: Recruit[]) => {
   return recruits.reduce<Record<DateString, RecruitEvent[]>>((acc, recruit) => {
     const addEvent = (dateKey: DateString) => {
       if (!isDefined(acc[dateKey])) {

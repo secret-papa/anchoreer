@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { makeEvents } from './utils';
 import { flatten, normalize } from '../../../../utils';
 import { useLocalStorage } from '../../../../hooks';
-import type { Recruit, RecruitEvent } from '../types';
+import type { RecruitEvent } from '../types';
+import type { Recruit } from '../../types';
 import type { DateString } from '../../../../types';
 
 export const useRecruitEvents = (recruits?: Recruit[]) => {
