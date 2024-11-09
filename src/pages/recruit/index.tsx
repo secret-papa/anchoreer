@@ -2,41 +2,16 @@ import { useState } from 'react';
 
 import styles from './styles.module.scss';
 import { RecruitCalendar, RecruitFilter } from './components';
-import { useListDutyQuery, useListRecruitQuery } from './queries';
+import { useListDutyQuery } from './queries';
 import { useDuty, useRecruit } from './hooks';
-import { flatten, isDefined, removeDuplicates } from '../../utils';
 
 const RecruitPage = () => {
   const [currentDate, setCurrentDate] = useState(() => new Date());
-
-  const { data: listRecruit } = useListRecruitQuery();
-  const { getRecruitById, getRecruitsGroupedByDate } = useRecruit(listRecruit);
-
-  // TODO:: define type
   const [selectedDuties, setSelectedDuties] = useState<number[]>([]);
   const { data: listDuty } = useListDutyQuery();
   const { duties, getDuty } = useDuty(listDuty);
 
-  const recruitsGroupedByDate = getRecruitsGroupedByDate(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1
-  );
-
-  const recruits = removeDuplicates(flatten<number>(recruitsGroupedByDate))
-    .map(getRecruitById)
-    .filter((recruit) => {
-      if (!isDefined(recruit)) {
-        return false;
-      }
-
-      if (selectedDuties.length === 0) {
-        return true;
-      }
-
-      return selectedDuties.some((duty) => recruit.duty_ids.includes(duty));
-    })
-    // TODO:: 제거 필요?
-    .filter(isDefined);
+  const { recruits } = useRecruit(currentDate, selectedDuties);
 
   const handleCurrentDateChange = (currentDate: Date) => {
     setCurrentDate(currentDate);
@@ -65,6 +40,7 @@ const RecruitPage = () => {
         currentDate={currentDate}
         recruits={recruits}
         onCurrentDateChange={handleCurrentDateChange}
+        // TODO:: refactoring
         getDuty={getDuty}
       />
     </main>

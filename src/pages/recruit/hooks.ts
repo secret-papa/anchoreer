@@ -1,48 +1,53 @@
 import { useEffect, useState } from 'react';
 
-import { groupByDate, isDefined, mergeGroupedData, normalize } from '../../utils';
-import type { ArrayElement } from '../../utils';
-import type { ListDutyResponse, ListRecruitResponse } from '../../apis';
-import type { DateGroupedData } from '../../types';
+import { useRecruitStore } from './stores';
+import { useListRecruitQuery } from './queries';
+import { ListDutyResponse } from '../../apis';
+import { flatten, isDefined, removeDuplicates } from '../../utils';
 
-export const useRecruit = (listRecruit?: ListRecruitResponse) => {
-  const [normalizedRecruit, setNormalizedRecruit] =
-    useState<Record<number, ArrayElement<ListRecruitResponse>>>();
-  const [recruitsGroupedByDate, setRecruitsGroupedByDate] = useState<DateGroupedData>();
+export const useRecruit = (currentDate: Date, filterIds: number[]) => {
+  const { data: listRecruit } = useListRecruitQuery();
 
-  const getRecruitById = (recruitId: number) => {
-    return normalizedRecruit?.[recruitId];
-  };
+  const getRecruitsGroupedByDate = useRecruitStore((state) => state.getRecruitsGroupedByDate);
+  const getRecruitById = useRecruitStore((state) => state.getById);
+  const setRecruits = useRecruitStore((state) => state.setRecruits);
+  const normalizeRecruit = useRecruitStore((state) => state.normalize);
+  const groupRecruitsByDate = useRecruitStore((state) => state.groupByDate);
 
-  const getRecruitsGroupedByDate = (year: number, month: number) => {
-    return recruitsGroupedByDate?.[year]?.[month];
-  };
+  const recruitsGroupedByDate = getRecruitsGroupedByDate(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1
+  );
+
+  const recruits = removeDuplicates(flatten<number>(recruitsGroupedByDate))
+    .map(getRecruitById)
+    .filter((recruit) => {
+      if (!isDefined(recruit)) {
+        return false;
+      }
+
+      if (filterIds.length === 0) {
+        return true;
+      }
+
+      return filterIds.some((filterId) => recruit.duty_ids.includes(filterId));
+    })
+    // TODO:: 제거 필요?
+    .filter(isDefined);
 
   useEffect(() => {
-    if (!isDefined(listRecruit)) {
+    if (!listRecruit) {
       return;
     }
 
-    setNormalizedRecruit(normalize(listRecruit, 'id'));
-    setRecruitsGroupedByDate(
-      mergeGroupedData(
-        groupByDate<ArrayElement<ListRecruitResponse>>(
-          listRecruit,
-          (recruit) => new Date(recruit.start_time),
-          (recruit) => recruit.id
-        ),
-        groupByDate<ArrayElement<ListRecruitResponse>>(
-          listRecruit,
-          (recruit) => new Date(recruit.end_time),
-          (recruit) => recruit.id
-        )
-      )
-    );
+    // TODO:: refactoring
+    setRecruits(listRecruit);
+    normalizeRecruit();
+    groupRecruitsByDate();
   }, [listRecruit]);
 
   return {
-    getRecruitById,
-    getRecruitsGroupedByDate,
+    recruits,
   };
 };
 

@@ -23,7 +23,7 @@ export const collectIdsWithoutChildren = (items: any[], getDuty: any): any[] => 
 };
 
 // TODO:: refactoring
-const excludeItems = (array: any, itemsToExclude: any) => {
+const excludeItems = (array: any[], itemsToExclude: any[]) => {
   return array.filter((item: any) => !itemsToExclude.includes(item));
 };
 
