@@ -3,7 +3,5 @@ export type RecruitFilterProps = {
   selectedDuties: any;
   // TODO:: define type
   duties: any;
-  // TODO:: refactoring
-  getDuty: any;
   onFilterSelect: (duties: number[]) => void;
 };

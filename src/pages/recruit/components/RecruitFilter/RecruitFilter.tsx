@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import styles from './styles.module.scss';
 import { ListDuty } from './ListDuty';
+import { useDutyStore } from '../../stores';
 import type { RecruitFilterProps } from './types';
 
 // TODO:: define type
@@ -27,21 +28,19 @@ const excludeItems = (array: any[], itemsToExclude: any[]) => {
   return array.filter((item: any) => !itemsToExclude.includes(item));
 };
 
-export const RecruitFilter = ({
-  selectedDuties,
-  duties,
-  getDuty,
-  onFilterSelect,
-}: RecruitFilterProps) => {
-  // TODO:: define type
+export const RecruitFilter = ({ selectedDuties, duties, onFilterSelect }: RecruitFilterProps) => {
   const [flatDuties, setFlatDuties] = useState<any[]>(() => [
     Object.values(duties)
       .filter((duty: any) => duty.parent_id === null)
       .map(({ id }: any) => id),
   ]);
 
+  const getDutyById = useDutyStore((state) => state.getById);
+
   const handleCheckBoxChange = (checked: boolean, duty: any) => {
-    const duties = !duty.children ? [duty.id] : collectIdsWithoutChildren(duty.children, getDuty);
+    const duties = !duty.children
+      ? [duty.id]
+      : collectIdsWithoutChildren(duty.children, getDutyById);
 
     if (checked) {
       onFilterSelect(selectedDuties.concat(duties));
@@ -69,9 +68,8 @@ export const RecruitFilter = ({
           <ListDuty
             key={idx}
             order={idx}
-            list={list.map(getDuty)}
+            list={list.map(getDutyById)}
             selectedDuties={selectedDuties}
-            getDuty={getDuty}
             onItemSelect={handleItemSelect}
             onCheckBoxChange={handleCheckBoxChange}
           />

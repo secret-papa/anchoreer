@@ -5,6 +5,4 @@ export type RecruitDetailModalProps = {
   recruitEvent: RecruitEvent;
   onOpenChange: (open: boolean) => void;
   onEventChange: (eventId: string) => void;
-  // TODO:: refactoring
-  getDuty: any;
 };

@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 
 import { groupByDate, mergeGroupedData, normalize } from '../../utils';
-import type { RecruitStore } from './types';
+import type { Duty, DutyStore, RecruitStore } from './types';
+import type { ListDutyResponse } from '../../apis';
 
 export const useRecruitStore = create<RecruitStore>((set, get) => ({
   recruits: [],
@@ -28,3 +29,44 @@ export const useRecruitStore = create<RecruitStore>((set, get) => ({
   getRecruitsGroupedByDate: (year: number, month: number) =>
     get().recruitsGroupedByDate?.[year]?.[month],
 }));
+
+export const useDutyStore = create<DutyStore>((set, get) => ({
+  duties: [],
+  normalizedDuty: {},
+  setDuties: (duties) => set(() => ({ duties })),
+  normalize: () => set((state) => ({ normalizedDuty: normalizeDuty(state.duties) })),
+  getById: (id: number) => get().normalizedDuty[id],
+}));
+
+// TODO:: refactoring
+const normalizeDuty = (listDuty: ListDutyResponse) => {
+  return listDuty.reduce(
+    (acc, duty) => {
+      const key = duty.id;
+
+      if (!acc[key]) {
+        acc[key] = {
+          ...duty,
+        };
+      }
+
+      if (duty.parent_id !== null) {
+        let parentDuty = acc[duty.parent_id];
+
+        if (!parentDuty) {
+          // TODO:: define type
+          parentDuty = {} as any;
+        }
+
+        if (!parentDuty.children) {
+          parentDuty.children = [];
+        }
+
+        parentDuty.children.push(duty.id);
+      }
+
+      return acc;
+    },
+    {} as Record<number, Duty>
+  );
+};

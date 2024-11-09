@@ -5,15 +5,17 @@ import RightChevronIcon from '../../../../assets/icons/ic_right_chevron.svg?reac
 import LeftChevronIcon from '../../../../assets/icons/ic_left_chevron.svg?react';
 import { Modal } from '../../../../components/ui';
 import type { RecruitDetailModalProps } from './types';
+import { useDutyStore } from '../../stores';
 
 export const RecruitDetailEventModal = ({
   isOpen,
   recruitEvent,
   onOpenChange,
   onEventChange,
-  getDuty,
 }: RecruitDetailModalProps) => {
   const { recruit, prevEvent, nextEvent } = recruitEvent.meta ?? {};
+
+  const getDutyById = useDutyStore((state) => state.getById);
 
   const handlePrevEventButtonClick = () => {
     if (!prevEvent) {
@@ -49,7 +51,7 @@ export const RecruitDetailEventModal = ({
             <div className={styles.content_detail}>
               <span className={styles.period}>{`${recruit.start_time} ~ ${recruit.end_time}`}</span>
               <span className={styles.duty}>
-                {recruit.duty_ids.map((duty) => getDuty(duty).name).join(', ')}
+                {recruit.duty_ids.map((duty) => getDutyById(duty)?.name).join(', ')}
               </span>
             </div>
             <div className={styles.content_image_wrap}>
