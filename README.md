@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# 앵커리어 프론트앤드 과제 - 채용 달력 만들기
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[자소설닷컴 채용 달력](https://jasoseol.com/recruit)과 유사한 채용 달력을 구현하는 과제
 
-Currently, two official plugins are available:
+## How To Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+```
+Node: v20.15.0
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+```bash
+$ npm install
+$ npm run dev
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
+# http://localhost:3000 접근
 ```
+
+## 기술 스택
+
+- Language: Typescript
+- UI: React
+- Style: SCSS
+- Client State: Zustand
+  - 서버에서 받아온 데이터를 조회가 용이한 형태로 가공하여 제공하기 위해 도입
+    - 단건 조회 & 조건부 목록 조회와 같은 api 부재
+- Server State: React Query
+  - 비동기 상태 관리를 위해 도입
+
+## 설계
+
+```
+component -> hooks -> query & store -> api
+```
+
+**UI**, **비즈니스 로직**, **데이터 관리**에 대한 책임을 분리하여 가독성을 높이고 유지 보수가 용이하도록 설계
+
+### 역할
+
+- component: UI
+- hooks: (비즈니스) 로직
+- utils: hook 형태가 아닌 로직
+- query & store: 데이터 관리
+- types: type 정의
+- apis: 외부 서비스 api 호출
