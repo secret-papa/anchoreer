@@ -27,7 +27,10 @@ export const RecruitFilter = ({ filteredIds, duties, onFilter }: RecruitFilterPr
 
   return (
     <div className={styles.root}>
-      <span className={styles.title}>직무</span>
+      <div className={styles.header}>
+        <span className={styles.title}>직무</span>
+        {!!filteredIds.length && <span className={styles.tag}>{filteredIds.length}</span>}
+      </div>
       <div className={styles.container}>
         {dutiesByHierarchy.map((duties, idx) => (
           <DutyHierarchy

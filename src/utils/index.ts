@@ -9,4 +9,5 @@ export * from './parseJSON';
 export * from './isEmptyObject';
 export * from './excludeItems';
 export * from './isSubsetArray';
+export * from './countMaches';
 export * from './types';
